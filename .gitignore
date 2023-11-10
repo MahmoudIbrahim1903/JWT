@@ -1,0 +1,7 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/JWTDemo/.vs/JWTDemo/config
+/JWTDemo/.vs/JWTDemo/FileContentIndex
+/JWTDemo/.vs/JWTDemo/v17
