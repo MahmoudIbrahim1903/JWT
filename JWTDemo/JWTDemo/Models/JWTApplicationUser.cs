@@ -2,7 +2,7 @@
 
 namespace JWTDemo.Models
 {
-    public class ApplicationUser : IdentityUser
+    public class JWTApplicationUser : IdentityUser
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
