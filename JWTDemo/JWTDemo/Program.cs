@@ -1,5 +1,7 @@
+using JWTDemo.Contracts;
 using JWTDemo.Data;
 using JWTDemo.Models;
+using JWTDemo.Services;
 using JWTDemo.Utilities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -15,6 +17,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
 builder.Services.Configure<JWT>(builder.Configuration.GetSection("JWT"));
 
