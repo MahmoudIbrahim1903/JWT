@@ -57,3 +57,5 @@
 /JWTDemo/JWTDemo/bin/Debug/net6.0/Humanizer.dll
 /JWTDemo/JWTDemo/bin/Debug/net6.0/Microsoft.EntityFrameworkCore.Design.dll
 /JWTDemo/JWTDemo/obj/JWTDemo.csproj.nuget.g.props
+/JWTDemo/JWTDemo/obj/Debug/net6.0/JWTDemo.GeneratedMSBuildEditorConfig.editorconfig
+/JWTDemo/JWTDemo/obj/Debug/net6.0/JWTDemo.genruntimeconfig.cache
