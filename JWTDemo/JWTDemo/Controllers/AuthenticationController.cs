@@ -27,5 +27,18 @@ namespace JWTDemo.Controllers
 
             return Ok(result);
         }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> LoginAsync([FromBody] LoginRequestVm model)
+        {            
+            var result = await _authenticationService.LoginAsync(model);
+
+            if (!string.IsNullOrEmpty(result.ErrorMessage))
+                return BadRequest(result.ErrorMessage);
+
+            return Ok(result);
+        }
+
+
     }
 }

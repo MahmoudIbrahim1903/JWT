@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -42,6 +43,8 @@ builder.Services.AddAuthentication(opt =>
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
         };
     });
+
+builder.Services.AddSingleton<JwtSecurityTokenHandler>();
 
 builder.Services.AddDbContext<JWTDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("EGY")));
 
