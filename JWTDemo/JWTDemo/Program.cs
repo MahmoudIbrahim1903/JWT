@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
@@ -23,11 +24,18 @@ builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
 builder.Services.Configure<JWT>(builder.Configuration.GetSection("JWT"));
 
-builder.Services.AddAuthentication(opt =>
-    {
-        opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    })
+builder.Services.AddSingleton<JwtSecurityTokenHandler>();
+
+builder.Services.AddIdentity<JWTApplicationUser, IdentityRole>().AddEntityFrameworkStores<JWTDbContext>();
+
+builder.Services.AddDbContext<JWTDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("EGY")));
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
     .AddJwtBearer(o =>
     {
         o.RequireHttpsMetadata = false;
@@ -40,15 +48,16 @@ builder.Services.AddAuthentication(opt =>
             ValidateLifetime = true,
             ValidIssuer = builder.Configuration["JWT:Issuer"],
             ValidAudience = builder.Configuration["JWT:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"])),
+            ClockSkew = TimeSpan.Zero
         };
     });
 
-builder.Services.AddSingleton<JwtSecurityTokenHandler>();
+builder.Services.AddControllers();
 
-builder.Services.AddDbContext<JWTDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("EGY")));
-
-builder.Services.AddIdentity<JWTApplicationUser, IdentityRole>().AddEntityFrameworkStores<JWTDbContext>();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 

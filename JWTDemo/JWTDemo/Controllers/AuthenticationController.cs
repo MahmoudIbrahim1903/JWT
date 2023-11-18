@@ -1,10 +1,11 @@
 ﻿using JWTDemo.Contracts;
 using JWTDemo.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JWTDemo.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/authentication")]
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
@@ -15,7 +16,7 @@ namespace JWTDemo.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> RegisterAsync([FromBody] RegisterationRequestVm model)
+        public async Task<IActionResult> Register([FromBody] RegisterationRequestVm model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -29,7 +30,7 @@ namespace JWTDemo.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> LoginAsync([FromBody] LoginRequestVm model)
+        public async Task<IActionResult> Login([FromBody] LoginRequestVm model)
         {            
             var result = await _authenticationService.LoginAsync(model);
 
@@ -39,6 +40,11 @@ namespace JWTDemo.Controllers
             return Ok(result);
         }
 
-
+        [HttpGet("test_authorization")]
+        [Authorize(Roles = "Admin")]
+        public IActionResult IsAuthorized()
+        {           
+            return Ok("You're authorized");
+        }
     }
 }
