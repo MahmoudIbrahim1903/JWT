@@ -6,5 +6,6 @@ namespace JWTDemo.Contracts
     {
         Task<RegisterationResponseVm> RegisterAsync(RegisterationRequestVm model);
         Task<LoginResponseVm> LoginAsync(LoginRequestVm model);
+        Task<LoginResponseVm> RefreshTokenAsync(string token);
     }
 }

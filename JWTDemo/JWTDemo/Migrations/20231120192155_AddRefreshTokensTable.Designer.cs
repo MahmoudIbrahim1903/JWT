@@ -4,6 +4,7 @@ using JWTDemo.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JWTDemo.Migrations
 {
     [DbContext(typeof(JWTDbContext))]
-    partial class JWTDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231120192155_AddRefreshTokensTable")]
+    partial class AddRefreshTokensTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -107,18 +109,18 @@ namespace JWTDemo.Migrations
                     b.Property<DateTime>("ExpiresOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("JWTApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime?>("RevokedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Token")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("JWTApplicationUserId");
 
                     b.ToTable("RefreshToken");
                 });
@@ -258,11 +260,9 @@ namespace JWTDemo.Migrations
 
             modelBuilder.Entity("JWTDemo.Models.RefreshToken", b =>
                 {
-                    b.HasOne("JWTDemo.Models.JWTApplicationUser", "User")
+                    b.HasOne("JWTDemo.Models.JWTApplicationUser", null)
                         .WithMany("RefreshTokens")
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
+                        .HasForeignKey("JWTApplicationUserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

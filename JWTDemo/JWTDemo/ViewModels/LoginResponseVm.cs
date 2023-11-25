@@ -1,9 +1,8 @@
 ﻿namespace JWTDemo.ViewModels
 {
-    public class LoginResponseVm
+    public class LoginResponseVm : BaseLoginResponseVm
     {
-        public string Token { get; set; }
-        public DateTime? ExpirationDate { get; set; }
-        public string ErrorMessage { get; set; }
+        public string RefreshToken { get; set; }
+        public DateTime RefreshTokenExpiresIn { get; set; }
     }
 }
